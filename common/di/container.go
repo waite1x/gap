@@ -6,14 +6,6 @@ import (
 	"sync"
 )
 
-type Optional[T any] struct {
-	init ConfigureFunc
-}
-
-func (o *Optional[T]) Init(opt *T) {
-	o.init(nil, opt)
-}
-
 func NewContainer() *Container {
 	return &Container{
 		initors:  sync.Map{},

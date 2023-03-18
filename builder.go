@@ -4,7 +4,7 @@ import "context"
 
 const (
 	OrderRun      int = 0
-	OrderAfterRun int = 1000
+	OrderAfterRun int = 10000
 )
 
 type AppBuilder struct {
@@ -59,6 +59,10 @@ func (ab *AppBuilder) Set(k string, v interface{}) *AppBuilder {
 func (ab *AppBuilder) TrySet(k string, v interface{}) *AppBuilder {
 	ab.context.TrySet(k, v)
 	return ab
+}
+
+func (ab *AppBuilder) Get(k string) (any, bool) {
+	return ab.context.Get(k)
 }
 
 func (ab *AppBuilder) Configure(action func(*AppContext)) {
