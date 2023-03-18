@@ -1,4 +1,4 @@
-package slim
+package gapp
 
 import "sort"
 
@@ -33,7 +33,7 @@ func (app *Application) Run() error {
 func (app *Application) runApp() error {
 	sort.SliceStable(app.Ctx.Runs, func(i, j int) bool { return app.Ctx.Runs[i].order < app.Ctx.Runs[j].order })
 	for _, run := range app.Ctx.Runs {
-		if err := run.run(); err != nil {
+		if err := run.run(app); err != nil {
 			return err
 		}
 	}

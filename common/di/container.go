@@ -14,7 +14,7 @@ func (o *Optional[T]) Init(opt *T) {
 	o.init(nil, opt)
 }
 
-func newContainer() *Container {
+func NewContainer() *Container {
 	return &Container{
 		initors:  sync.Map{},
 		Services: make([]ServiceDescriptor, 0),

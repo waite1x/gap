@@ -2,6 +2,6 @@ go 1.19
 
 use (
 	./
-	./di
+	./common
 	./example/helloworld
 )
