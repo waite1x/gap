@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 	"github.com/waite1x/gapp"
+	"github.com/waite1x/gapp/common/di"
 )
 
 const ServerBuilderName string = "GinServerBuilder"
@@ -18,7 +19,9 @@ type ServerBuiler struct {
 }
 
 func UseServer(ab *gapp.AppBuilder) *ServerBuiler {
-	return addServer(ab)
+	sb := addServer(ab)
+	sb.Use(DefaultMiddleware)
+	return sb
 }
 
 func newServerBuilder(builder *gapp.AppBuilder) *ServerBuiler {
@@ -63,12 +66,16 @@ func (b *ServerBuiler) Build() *Server {
 func addServer(ab *gapp.AppBuilder) *ServerBuiler {
 	sb, ok := ab.Get(ServerBuilderName)
 	if !ok {
-		sb = newServerBuilder(ab)
+		serverBuilder := newServerBuilder(ab)
+		ab.Configure(func(app *gapp.AppContext) {
+			di.AddValue(serverBuilder.Options)
+		})
 		ab.RunOrder(gapp.OrderAfterRun-1, func(app *gapp.Application) error {
-			server := sb.(*ServerBuiler).Build()
+			server := serverBuilder.Build()
 			return server.Run()
 		})
 		ab.Set(ServerBuilderName, sb)
+		return serverBuilder
 	}
 	return sb.(*ServerBuiler)
 }

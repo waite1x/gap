@@ -10,16 +10,15 @@ func NewContainer() *Container {
 	return &Container{
 		initors:  sync.Map{},
 		Services: make([]ServiceDescriptor, 0),
-		values:   sync.Map{},
 	}
 }
 
 type ConfigureFunc func(container *Container, instance any)
 
 type Container struct {
-	initors  sync.Map
-	values   sync.Map
-	Services []ServiceDescriptor
+	initors    sync.Map
+	singletons sync.Map
+	Services   []ServiceDescriptor
 }
 
 func (c *Container) Add(descriptor ServiceDescriptor) {

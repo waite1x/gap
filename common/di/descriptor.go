@@ -4,7 +4,7 @@ import "reflect"
 
 type ServiceScope int
 
-type ServiceCreator func(c *Container) interface{}
+type ServiceCreator func(c *Container) any
 
 const (
 	Transient ServiceScope = 0
@@ -16,7 +16,7 @@ type ServiceDescriptor struct {
 	ServiceType reflect.Type
 	Creator     ServiceCreator
 	Scope       ServiceScope
-	Value       interface{}
+	Value       any
 }
 
 func NewServiceDescriptor(serviceType reflect.Type, creator ServiceCreator, scope ServiceScope) ServiceDescriptor {
