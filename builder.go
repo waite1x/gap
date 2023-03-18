@@ -51,12 +51,12 @@ func (ab *AppBuilder) Description(v string) *AppBuilder {
 	return ab
 }
 
-func (ab *AppBuilder) Set(k string, v interface{}) *AppBuilder {
+func (ab *AppBuilder) Set(k string, v any) *AppBuilder {
 	ab.context.Set(k, v)
 	return ab
 }
 
-func (ab *AppBuilder) TrySet(k string, v interface{}) *AppBuilder {
+func (ab *AppBuilder) TrySet(k string, v any) *AppBuilder {
 	ab.context.TrySet(k, v)
 	return ab
 }

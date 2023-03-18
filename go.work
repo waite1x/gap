@@ -4,5 +4,4 @@ use (
 	./
 	./common
 	./server
-	./example/helloworld
 )

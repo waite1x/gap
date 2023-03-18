@@ -20,7 +20,7 @@ type AppContext struct {
 	Description string
 	Version     string
 
-	data map[string]interface{}
+	data map[string]any
 }
 
 func NewAppContext() *AppContext {
@@ -28,7 +28,7 @@ func NewAppContext() *AppContext {
 		ctx:        context.Background(),
 		Configures: make([]FuncInfo[ConfigureFunc], 0),
 		Runs:       make([]FuncInfo[RunFunc], 0),
-		data:       make(map[string]interface{}),
+		data:       make(map[string]any),
 	}
 }
 
@@ -54,16 +54,16 @@ func (a *AppContext) WithContext(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *AppContext) Get(key string) (interface{}, bool) {
+func (a *AppContext) Get(key string) (any, bool) {
 	v, ok := a.data[key]
 	return v, ok
 }
 
-func (a *AppContext) Set(key string, value interface{}) {
+func (a *AppContext) Set(key string, value any) {
 	a.data[key] = value
 }
 
-func (a *AppContext) TrySet(key string, value interface{}) {
+func (a *AppContext) TrySet(key string, value any) {
 	if _, ok := a.data[key]; !ok {
 		a.data[key] = value
 	}
