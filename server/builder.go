@@ -3,14 +3,14 @@ package server
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
-	"github.com/waite1x/gapp"
-	"github.com/waite1x/gapp/common/di"
+	"github.com/waite1x/gap"
+	"github.com/waite1x/gap/common/di"
 )
 
 const ServerBuilderName string = "GinServerBuilder"
 
 type ServerBuiler struct {
-	App     *gapp.AppBuilder
+	App     *gap.AppBuilder
 	preRuns []ServerConfigureFunc
 	initors []ServerConfigureFunc
 	Options *ServerOptions
@@ -18,13 +18,13 @@ type ServerBuiler struct {
 	Items map[string]any
 }
 
-func UseServer(ab *gapp.AppBuilder) *ServerBuiler {
+func UseServer(ab *gap.AppBuilder) *ServerBuiler {
 	sb := addServer(ab)
 	sb.Use(DefaultMiddleware)
 	return sb
 }
 
-func newServerBuilder(builder *gapp.AppBuilder) *ServerBuiler {
+func newServerBuilder(builder *gap.AppBuilder) *ServerBuiler {
 	return &ServerBuiler{
 		App:     builder,
 		preRuns: make([]ServerConfigureFunc, 0),
@@ -63,14 +63,14 @@ func (b *ServerBuiler) Build() *Server {
 	return server
 }
 
-func addServer(ab *gapp.AppBuilder) *ServerBuiler {
+func addServer(ab *gap.AppBuilder) *ServerBuiler {
 	sb, ok := ab.Get(ServerBuilderName)
 	if !ok {
 		serverBuilder := newServerBuilder(ab)
-		ab.Configure(func(app *gapp.AppContext) {
+		ab.Configure(func(app *gap.AppContext) {
 			di.AddValue(serverBuilder.Options)
 		})
-		ab.RunOrder(gapp.OrderAfterRun-1, func(app *gapp.Application) error {
+		ab.RunOrder(gap.OrderAfterRun-1, func(app *gap.Application) error {
 			server := serverBuilder.Build()
 			return server.Run()
 		})

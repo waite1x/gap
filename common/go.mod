@@ -1,4 +1,4 @@
-module github.com/waite1x/gapp/common
+module github.com/waite1x/gap/common
 
 go 1.19
 

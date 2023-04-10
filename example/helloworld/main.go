@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/waite1x/gapp"
+	"github.com/waite1x/gap"
 )
 
 func main() {
-	ab := gapp.NewAppBuilder()
+	ab := gap.NewAppBuilder()
 
 	ab.Use(helloSlim)
 
@@ -18,17 +18,17 @@ func main() {
 	app.Run()
 }
 
-func helloSlim(ab *gapp.AppBuilder) {
-	ab.Configure(func(app *gapp.AppContext) {
+func helloSlim(ab *gap.AppBuilder) {
+	ab.Configure(func(app *gap.AppContext) {
 		log.Println("Hello Slim will start!")
 	})
 
-	ab.PostRun(func(app *gapp.Application) error {
+	ab.PostRun(func(app *gap.Application) error {
 		log.Println("Hello Slim will exit!")
 		return nil
 	})
 
-	ab.Run(func(app *gapp.Application) error {
+	ab.Run(func(app *gap.Application) error {
 		log.Println("Hello Slim!")
 		return nil
 	})
