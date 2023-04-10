@@ -1,14 +1,13 @@
 package main
 
 import (
-	"server"
-
 	"github.com/gin-gonic/gin"
-	"github.com/waite1x/gapp"
+	"github.com/waite1x/gap"
+	"github.com/waite1x/gap/server"
 )
 
 func main() {
-	ab := gapp.NewAppBuilder()
+	ab := gap.NewAppBuilder()
 	server.UseServer(ab).
 		Use(configureServer)
 

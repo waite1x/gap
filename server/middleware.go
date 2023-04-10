@@ -4,7 +4,7 @@ import (
 	"github.com/gin-contrib/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
-	"github.com/waite1x/gapp/common/di"
+	"github.com/waite1x/gap/common/di"
 )
 
 func DefaultMiddleware(sb *ServerBuiler) {

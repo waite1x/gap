@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/waite1x/gapp/common"
-	"github.com/waite1x/gapp/common/log"
+	"github.com/waite1x/gap/common"
+	"github.com/waite1x/gap/common/log"
 )
 
 type ErrorHandFunc func(*gin.Context)

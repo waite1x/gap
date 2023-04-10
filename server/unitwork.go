@@ -5,8 +5,8 @@ import (
 	"errors"
 
 	"github.com/gin-gonic/gin"
-	"github.com/waite1x/gapp/common"
-	"github.com/waite1x/gapp/common/di"
+	"github.com/waite1x/gap/common"
+	"github.com/waite1x/gap/common/di"
 )
 
 const UnitWorkKey = "UnitWorkKey"

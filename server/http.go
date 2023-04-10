@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
-	"github.com/waite1x/gapp/common/log"
+	"github.com/waite1x/gap/common/log"
 )
 
 type ServerConfigureFunc func(s *Server)

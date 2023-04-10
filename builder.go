@@ -1,4 +1,4 @@
-package gapp
+package gap
 
 import "context"
 
