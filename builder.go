@@ -65,7 +65,7 @@ func (ab *AppBuilder) Get(k string) (any, bool) {
 	return ab.context.Get(k)
 }
 
-func (ab *AppBuilder) Configure(action func(*AppContext)) {
+func (ab *AppBuilder) Configure(action func(*AppContext) error) {
 	ab.context.Configure(0, action)
 }
 

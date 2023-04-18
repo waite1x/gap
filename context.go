@@ -2,7 +2,7 @@ package gap
 
 import "context"
 
-type ConfigureFunc = func(c *AppContext)
+type ConfigureFunc = func(c *AppContext) error
 type RunFunc = func(c *Application) error
 
 type FuncInfo[T any] struct {

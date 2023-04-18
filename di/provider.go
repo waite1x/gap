@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/waite1x/gap/common/log"
+	"github.com/waite1x/gap/log"
 )
 
 const ProviderKey = "di:Provider"

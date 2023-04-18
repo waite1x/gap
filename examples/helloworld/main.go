@@ -19,8 +19,9 @@ func main() {
 }
 
 func helloSlim(ab *gap.AppBuilder) {
-	ab.Configure(func(app *gap.AppContext) {
+	ab.Configure(func(app *gap.AppContext) error {
 		log.Println("Hello Slim will start!")
+		return nil
 	})
 
 	ab.PostRun(func(app *gap.Application) error {
