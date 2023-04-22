@@ -6,8 +6,6 @@ import (
 	"io"
 	"reflect"
 	"sync"
-
-	"github.com/waite1x/gap/log"
 )
 
 const ProviderKey = "di:Provider"
@@ -65,10 +63,7 @@ func (p *Provider) GetArray(baseType reflect.Type) []any {
 func (p *Provider) Close() {
 	p.values.Range(func(key, value interface{}) bool {
 		if closer, ok := value.(io.Closer); ok {
-			err := closer.Close()
-			if err != nil {
-				log.Warn("close instance failed", err)
-			}
+			closer.Close()
 		}
 		return true
 	})

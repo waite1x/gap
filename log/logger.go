@@ -2,81 +2,76 @@ package log
 
 import (
 	"fmt"
-	"io"
-	"os"
 	"runtime/debug"
-	"strings"
-
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 )
 
-var _writer = zerolog.ConsoleWriter{
-	Out:        os.Stderr,
-	TimeFormat: "2006/01/02 15:04:05",
-}
-var _logger = log.Output(_writer)
+type Level int8
 
-func Writer() io.Writer {
-	return _writer
+const (
+	DebugLevel Level = iota
+	InfoLevel
+	WarnLevel
+	ErrorLevel
+	FatalLevel
+	PanicLevel
+	NoLevel
+	Disabled
+	TraceLevel Level = -1
+)
+
+type Options struct {
+	Level Level
+}
+
+var Opts = &Options{
+	Level: InfoLevel,
+}
+
+var _logger Logger = &DefaultLogger{
+	opts: Opts,
+}
+
+type Logger interface {
+	Log(message string, level Level)
+}
+
+func SetLogger(logger Logger) {
+	_logger = logger
+}
+
+func GetLogger() Logger {
+	return _logger
 }
 
 func Info(msg string) {
-	_logger.Info().Msg(msg)
+	GetLogger().Log(msg, InfoLevel)
 }
 
 func Infof(format string, v ...any) {
-	_logger.Info().Msgf(format, v...)
+	msg := fmt.Sprintf(format, v...)
+	GetLogger().Log(msg, InfoLevel)
 }
 
 func Debug(msg string) {
-	_logger.Debug().Msg(msg)
+	GetLogger().Log(msg, DebugLevel)
 }
 
 func Debugf(format string, v ...any) {
-	_logger.Debug().Msgf(format, v...)
+	msg := fmt.Sprintf(format, v...)
+	GetLogger().Log(msg, DebugLevel)
 }
 
-func Warn(msg string, errs ...error) {
-	lerr := _logger.Warn()
-	if len(errs) > 0 {
-		//lerr = lerr.Err(errs[0])
-		msg += ": " + errs[0].Error()
-	}
-	lerr.Msg(msg)
+func Warn(msg string) {
+	GetLogger().Log(msg, WarnLevel)
 }
 
-func Error(msg string, errs ...error) {
-	msg = msg + "\n" + stack()
-	lerr := _logger.Error()
-	if len(errs) > 0 {
-		lerr = lerr.Err(errs[0])
-	}
-	lerr.Msg(msg)
+func Warnf(format string, v ...any) {
+	msg := fmt.Sprintf(format, v...)
+	GetLogger().Log(msg, WarnLevel)
 }
 
-func Fatal(err error, msg ...string) {
-	msg = append(msg, "\n"+stack())
-	lerr := _logger.Fatal().Err(err)
-	if len(msg) > 0 {
-		lerr.Msg(strings.Join(msg, ","))
-	} else {
-		lerr.Msg(err.Error())
-	}
-}
-
-func FatalMsg(msg string) {
-	msg = msg + "\n" + stack()
-	lerr := _logger.Fatal()
-	lerr.Msg(msg)
-}
-
-func Fatalf(format string, a ...any) {
-	lerr := _logger.Fatal()
-	lerr.Msg(fmt.Sprintf(format, a...) + "\n" + stack())
-}
-
-func stack() string {
-	stack := debug.Stack()
-	return string(stack)
+func Error(msg string, err error) {
+	stack := string(debug.Stack())
+	msg = fmt.Sprintf("%s, error: %s\n%s", msg, err, stack)
+	GetLogger().Log(msg, ErrorLevel)
 }
